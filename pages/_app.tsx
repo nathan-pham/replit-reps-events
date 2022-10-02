@@ -1,8 +1,12 @@
 import type { AppProps } from "next/app";
-import "../styles/globals.css";
+import { GlobalStyles } from "twin.macro";
+import "tailwindcss/tailwind.css";
 
 const App = ({ Component, pageProps }: AppProps) => (
-    <Component {...pageProps} />
+    <>
+        <GlobalStyles />
+        <Component {...pageProps} />
+    </>
 );
 
 export default App;
