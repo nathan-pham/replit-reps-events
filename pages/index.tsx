@@ -7,7 +7,6 @@ const Home: NextPage = () => {
             <NextHead>
                 <title>Replit Reps Events</title>
             </NextHead>
-            <p tw="hover:(underline)">Hello World</p>
         </>
     );
 };
