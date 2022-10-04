@@ -8,6 +8,7 @@ const Dashboard: NextPage = () => {
         <PageRoot>
             <PageWrapper>
                 <Header />
+                <h1>Registered For</h1>
                 <h1>My Events</h1>
             </PageWrapper>
         </PageRoot>

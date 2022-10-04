@@ -13,6 +13,12 @@ const PageRoot = ({ title, description, children }: PageRootProps) => {
     return (
         <>
             <NextHead>
+                <link
+                    rel="shortcut icon"
+                    href="/favicon-196.png"
+                    sizes="196x196"
+                    type="image/png"
+                />
                 <title>{title}</title>
                 <meta name="description" content={description} />
                 <meta
