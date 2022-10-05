@@ -1,4 +1,5 @@
 schema: http://localhost:3000/api/graphql
+documents: components/**/*.graphql
 generates:
     ./schema/index.ts:
         plugins:
@@ -7,3 +8,11 @@ generates:
             - typescript-operations
         config:
             fetcher: urql
+    ./components/graphql.ts:
+        plugins:
+            - typescript
+            - typescript-operations
+            - typescript-urql
+        config:
+            withHooks: true
+            withComponent: false
