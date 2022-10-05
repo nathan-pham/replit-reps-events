@@ -1,0 +1,17 @@
+type User {
+    username: String!
+    email: String!
+    password: String!
+
+    _createdAt: Date!
+    token: JWT
+}
+
+extend type Query {
+    user(username: String!): User!
+}
+
+extend type Mutation {
+    createUser(username: String!, email: String!, password: String!): User!
+    loginUser(username: String!, password: String!): User!
+}
