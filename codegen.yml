@@ -8,7 +8,7 @@ generates:
             - typescript-operations
         config:
             fetcher: urql
-    ./components/graphql.ts:
+    ./components/graphql/index.ts:
         plugins:
             - typescript
             - typescript-operations

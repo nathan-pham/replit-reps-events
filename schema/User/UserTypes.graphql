@@ -1,9 +1,10 @@
 type User {
+    id: ID!
     username: String!
+    avatar: URL!
     email: String!
     password: String!
-
-    _createdAt: Date!
+    events: [Event!]!
     token: JWT
 }
 

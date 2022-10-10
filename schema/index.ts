@@ -73,10 +73,46 @@ export type Scalars = {
   Void: any;
 };
 
+export type Event = {
+  __typename?: 'Event';
+  blocks: Array<EventBlock>;
+  description: Scalars['String'];
+  hero: Scalars['URL'];
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+  title: Scalars['String'];
+};
+
+export type EventBlock = {
+  __typename?: 'EventBlock';
+  children: Array<EventBlock>;
+  type: EventBlockType;
+};
+
+export enum EventBlockType {
+  Divider = 'DIVIDER',
+  Html = 'HTML',
+  Image = 'IMAGE',
+  ListChild = 'LIST_CHILD',
+  OlList = 'OL_LIST',
+  Paragraph = 'PARAGRAPH',
+  Title = 'TITLE',
+  UlList = 'UL_LIST',
+  Video = 'VIDEO'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createEvent: Event;
   createUser: User;
+  deleteEvent: Event;
   loginUser: User;
+};
+
+
+export type MutationCreateEventArgs = {
+  published: Scalars['Boolean'];
+  title: Scalars['String'];
 };
 
 
@@ -87,6 +123,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationLoginUserArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -94,7 +135,13 @@ export type MutationLoginUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  event: Event;
   user: User;
+};
+
+
+export type QueryEventArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -104,8 +151,10 @@ export type QueryUserArgs = {
 
 export type User = {
   __typename?: 'User';
-  _createdAt: Scalars['Date'];
+  avatar: Scalars['URL'];
   email: Scalars['String'];
+  events: Array<Event>;
+  id: Scalars['ID'];
   password: Scalars['String'];
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
@@ -192,12 +241,16 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Duration: ResolverTypeWrapper<Scalars['Duration']>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
+  Event: ResolverTypeWrapper<Event>;
+  EventBlock: ResolverTypeWrapper<EventBlock>;
+  EventBlockType: EventBlockType;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
   HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
   Hexadecimal: ResolverTypeWrapper<Scalars['Hexadecimal']>;
   IBAN: ResolverTypeWrapper<Scalars['IBAN']>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   IPv4: ResolverTypeWrapper<Scalars['IPv4']>;
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
@@ -260,12 +313,15 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime'];
   Duration: Scalars['Duration'];
   EmailAddress: Scalars['EmailAddress'];
+  Event: Event;
+  EventBlock: EventBlock;
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
   HexColorCode: Scalars['HexColorCode'];
   Hexadecimal: Scalars['Hexadecimal'];
   IBAN: Scalars['IBAN'];
+  ID: Scalars['ID'];
   IPv4: Scalars['IPv4'];
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
@@ -358,6 +414,22 @@ export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<Resolv
   name: 'EmailAddress';
 }
 
+export type EventResolvers<ContextType = any, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
+  blocks?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hero?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EventBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventBlock'] = ResolversParentTypes['EventBlock']> = {
+  children?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['EventBlockType'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface GuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['GUID'], any> {
   name: 'GUID';
 }
@@ -443,7 +515,9 @@ export interface MacScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationCreateEventArgs, 'published' | 'title'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password' | 'username'>>;
+  deleteEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationDeleteEventArgs, 'id'>>;
   loginUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginUserArgs, 'password' | 'username'>>;
 };
 
@@ -500,6 +574,7 @@ export interface PostalCodeScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  event?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<QueryEventArgs, 'id'>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
 };
 
@@ -552,8 +627,10 @@ export interface UnsignedIntScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  _createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  avatar?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['JWT']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -580,6 +657,8 @@ export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Duration?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
+  Event?: EventResolvers<ContextType>;
+  EventBlock?: EventBlockResolvers<ContextType>;
   GUID?: GraphQLScalarType;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;
@@ -633,3 +712,8 @@ export type Resolvers<ContextType = any> = {
   Void?: GraphQLScalarType;
 };
 
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', user: { __typename?: 'User', username: string } };

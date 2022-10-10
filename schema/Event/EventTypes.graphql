@@ -1,0 +1,34 @@
+type Event {
+    id: ID!
+    hero: URL!
+    title: String!
+    description: String!
+    blocks: [EventBlock!]!
+    published: Boolean!
+}
+
+type EventBlock {
+    type: EventBlockType!
+    children: [EventBlock!]!
+}
+
+enum EventBlockType {
+    TITLE
+    DIVIDER
+    PARAGRAPH
+    IMAGE
+    VIDEO
+    HTML
+    OL_LIST
+    UL_LIST
+    LIST_CHILD
+}
+
+extend type Query {
+    event(id: ID!): Event!
+}
+
+extend type Mutation {
+    createEvent(title: String!, published: Boolean!): Event!
+    deleteEvent(id: ID!): Event!
+}

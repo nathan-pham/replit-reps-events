@@ -7,6 +7,7 @@ import {
 } from "graphql-scalars";
 
 import { UserTypes, UserQueries, UserMutations } from "schema/User";
+import { EventTypes, EventQueries, EventMutations } from "schema/Event";
 
 // let Apollo handle request
 export const config = {
@@ -28,14 +29,17 @@ export default createServer<{
                 type Mutation
             `,
             UserTypes,
+            EventTypes,
         ],
         resolvers: {
             ...scalarResolvers,
             Query: {
                 ...UserQueries,
+                ...EventQueries,
             },
             Mutation: {
                 ...UserMutations,
+                ...EventMutations,
             },
         },
     },
