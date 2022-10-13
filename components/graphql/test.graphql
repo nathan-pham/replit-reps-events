@@ -1,5 +1,0 @@
-query GetUsers {
-    user(username: "test") {
-        username
-    }
-}
