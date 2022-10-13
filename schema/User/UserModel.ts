@@ -10,6 +10,34 @@ import generateToken from "utils/generateToken";
 
 class UserModel {
     /**
+     * Remove private fields from a user
+     * @param user - User object
+     * @returns
+     */
+    static removePrivateFields(user: User) {
+        user.password = "";
+        user.email = "";
+
+        return user;
+    }
+
+    static async loginUser(username: string, password: string) {
+        // check if user already exists
+        const user = await UserModel.findByUsername(username).catch(() => ({}));
+        if (!("username" in user)) {
+            return Promise.reject(new GraphQLYogaError("User not found"));
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return Promise.reject(new GraphQLYogaError("Incorrect password"));
+        }
+
+        user.token = generateToken(user);
+        return user;
+    }
+
+    /**
      * Create a user given a username, password, email, and avatar
      * @param username
      * @param password
@@ -23,12 +51,11 @@ class UserModel {
         email: string,
         avatar = ""
     ) {
-        // check if user already exists
+        // check if user already exists (will have a username)
         const existingUser = await UserModel.findByUsername(username).catch(
-            () => {}
+            () => ({})
         );
-
-        if (existingUser instanceof UserModel) {
+        if ("username" in existingUser) {
             return Promise.reject(new GraphQLYogaError("User already exists"));
         }
 
