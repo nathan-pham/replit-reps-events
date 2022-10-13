@@ -5,6 +5,7 @@ type Event {
     description: String!
     blocks: [EventBlock!]!
     published: Boolean!
+    _createdAt: DateTime!
 }
 
 type EventBlock {

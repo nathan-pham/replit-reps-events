@@ -6,6 +6,8 @@ type User {
     password: String!
     events: [Event!]!
     token: JWT
+
+    _createdAt: DateTime!
 }
 
 extend type Query {

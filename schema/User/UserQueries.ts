@@ -1,7 +1,13 @@
-import { Resolvers, User } from "schema";
+import { Resolvers } from "schema";
+import UserModel from "./UserModel";
 
 export const UserQueries: Resolvers["Query"] = {
-    user: (_, { username }) => {
-        return { username } as User;
+    user: async (_, { username }) => {
+        const user = await UserModel.findByUsername(username);
+        // remove private fields
+        user.password = "";
+        user.email = "";
+
+        return user;
     },
 };
