@@ -8,20 +8,31 @@ import { useMutation } from "urql";
 import PageRoot from "components/PageRoot";
 import { Button, Input } from "components/utils/atoms";
 import AuthForm from "components/AuthForm";
+import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
+    const router = useRouter();
     const [createUserResult, createUser] = useMutation(CreateUser);
-    const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
 
         // submit form
         const user = new FormData(e.target as HTMLFormElement);
-        createUser({
+        const result = await createUser({
             username: user.get("username"),
             email: user.get("email"),
             password: user.get("password"),
         });
+
+        if (result.error) {
+        } else {
+            router.push("/~");
+        }
     };
+
+    // useEffect(() => {
+    //     // console.log(createUserResult);
+    // }, [createUserResult]);
 
     return (
         <PageRoot>

@@ -1,3 +1,14 @@
+type Submission {
+    id: ID!
+    title: String!
+    summary: String!
+    description: String!
+    images: [String!]!
+    video: String!
+
+    _createdAt: DateTime!
+}
+
 type Event {
     id: ID!
     hero: URL!
@@ -5,6 +16,8 @@ type Event {
     description: String!
     blocks: [EventBlock!]!
     published: Boolean!
+    submissions: [Submission!]!
+
     _createdAt: DateTime!
 }
 

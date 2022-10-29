@@ -5,8 +5,9 @@ type User {
     email: String!
     password: String!
     events: [Event!]!
-    token: JWT
+    submissions: [Submission!]!
 
+    token: JWT
     _createdAt: DateTime!
 }
 

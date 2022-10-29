@@ -1,13 +1,10 @@
 import type { NextPage } from "next";
 
-import { FormEventHandler } from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
-import CreateUser from "components/graphql/CreateUser.graphql";
-import { useMutation } from "urql";
 
 import PageRoot from "components/PageRoot";
-import { Button, Input } from "components/utils/atoms";
 import AuthForm from "components/AuthForm";
+import { Button, Input } from "components/utils/atoms";
 
 const Login: NextPage = () => {
     return (
