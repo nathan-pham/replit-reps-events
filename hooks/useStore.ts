@@ -13,29 +13,16 @@ export interface Store {
     addToast: (
         title: string,
         description: string,
-        icon: string,
-        id: string
+        icon?: string,
+        id?: string
     ) => void;
     removeToast: (id: string) => void;
 }
 
 const useStore = create<Store>((set, get) => ({
-    toasts: [
-        {
-            title: "hello",
-            description: "adslfk jasldkf jaklsdfj alksdjf akjdfk asdf",
-            icon: "none",
-            id: "sdfsd",
-        },
-        {
-            title: "hello sdf sdf",
-            description: "adslfk jasldkf jaklsdfj alksdjf akjdfk asdf",
-            icon: "none",
-            id: "sddfsd",
-        },
-    ],
+    toasts: [],
 
-    addToast: (title, description, icon, id = v4()) =>
+    addToast: (title, description, icon = "none", id = v4()) =>
         set({
             toasts: [...get().toasts, { title, description, icon, id }],
         }),

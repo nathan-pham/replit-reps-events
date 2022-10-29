@@ -9,10 +9,12 @@ import PageRoot from "components/PageRoot";
 import { Button, Input } from "components/utils/atoms";
 import AuthForm from "components/AuthForm";
 import { useRouter } from "next/router";
+import useStore from "hooks/useStore";
 
 const Login: NextPage = () => {
     const router = useRouter();
-    const [createUserResult, createUser] = useMutation(CreateUser);
+    const addToast = useStore((s) => s.addToast);
+    const [_, createUser] = useMutation(CreateUser);
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
 
@@ -24,15 +26,18 @@ const Login: NextPage = () => {
             password: user.get("password"),
         });
 
+        // show error
         if (result.error) {
-        } else {
-            router.push("/~");
+            return addToast(
+                "Try signing in.",
+                "Looks like an account with that username already exists!"
+            );
         }
-    };
 
-    // useEffect(() => {
-    //     // console.log(createUserResult);
-    // }, [createUserResult]);
+        // save token & redirect to dashboard
+        localStorage.setItem("token", result.data.createUser.token);
+        router.push("/~");
+    };
 
     return (
         <PageRoot>

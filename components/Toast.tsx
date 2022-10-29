@@ -5,13 +5,11 @@ import { motion } from "framer-motion";
 const toast = {
     show: {
         opacity: 1,
-        scale: 1,
-        y: 0,
+        x: 0,
     },
     hidden: {
         opacity: 0,
-        scale: 0,
-        y: "100%",
+        x: "100%",
     },
 };
 
@@ -20,7 +18,7 @@ const Toast = (props: ToastProps) => {
 
     return (
         <motion.aside
-            tw="px-4 py-2 mt-3 border rounded-md bg-white shadow-md w-56"
+            tw="px-4 py-2 mt-3 border rounded-md bg-white shadow-md w-60"
             variants={toast}
             initial="hidden"
             animate="show"
@@ -35,7 +33,9 @@ const Toast = (props: ToastProps) => {
                     <BiX />
                 </div>
             </h1>
-            <p tw="text-gray-500 leading-snug mt-1">{props.description}</p>
+            <p tw="text-gray-500 leading-snug mt-1 text-sm">
+                {props.description}
+            </p>
         </motion.aside>
     );
 };

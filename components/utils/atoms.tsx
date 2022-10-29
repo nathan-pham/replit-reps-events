@@ -16,7 +16,3 @@ export const Button = styled.button(
             tw`border border-transparent bg-blue-300 hover:(border-blue-500)`,
     ]
 );
-
-// `
-//     ${}
-// `;
