@@ -1,4 +1,4 @@
-import { Resolvers, User } from "schema";
+import { Resolvers } from "schema";
 import UserModel from "./UserModel";
 
 export const UserMutations: Resolvers["Mutation"] = {

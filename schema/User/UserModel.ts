@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 import { User } from "schema";
 import supabase, { USER_TABLE } from "schema/supabase";
-import generateToken from "utils/generateToken";
+import { generateToken, validateToken } from "utils/manageToken";
 
 // another solution for destructuring in class props proposed here
 // https://github.com/Microsoft/TypeScript/issues/5326
@@ -19,6 +19,15 @@ class UserModel {
         user.email = "";
 
         return user;
+    }
+
+    static async validateUser(authHeader: string) {
+        const user = validateToken(authHeader);
+
+        return (
+            user ||
+            Promise.reject(new GraphQLYogaError("User not authenticated"))
+        );
     }
 
     static async loginUser(username: string, password: string) {

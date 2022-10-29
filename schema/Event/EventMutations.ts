@@ -1,21 +1,10 @@
-export const EventMutations = {};
+import { Resolvers } from "schema";
+import EventModel from "schema/Event/EventModel";
+import UserModel from "schema/User/UserModel";
 
-// extend type Query {
-//     event(id: ID!): Event!
-// }
-
-// extend type Mutation {
-//     createEvent(title: String!, published: Boolean!): Event!
-//     deleteEvent(id: ID!): Event!
-// }
-
-// import { Resolvers, User } from "schema";
-
-// export const UserMutations: Resolvers["Mutation"] = {
-//     loginUser: async (_, { username, password }) => {
-//         return { username, password } as User;
-//     },
-//     createUser: async (_, { username, password, email }) => {
-//         return { username, password, email } as User;
-//     },
-// };
+export const EventMutations: Resolvers["Mutation"] = {
+    createEvent: async (_, { title, published }, { req }) => {
+        const user = await UserModel.validateUser(req.headers.authorization);
+        return EventModel.createEvent(user, title, published);
+    },
+};

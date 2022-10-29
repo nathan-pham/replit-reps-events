@@ -75,11 +75,13 @@ export type Scalars = {
 
 export type Event = {
   __typename?: 'Event';
+  _createdAt: Scalars['DateTime'];
   blocks: Array<EventBlock>;
   description: Scalars['String'];
   hero: Scalars['URL'];
   id: Scalars['ID'];
   published: Scalars['Boolean'];
+  submissions: Array<Submission>;
   title: Scalars['String'];
 };
 
@@ -149,13 +151,26 @@ export type QueryUserArgs = {
   username: Scalars['String'];
 };
 
+export type Submission = {
+  __typename?: 'Submission';
+  _createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  images: Array<Scalars['String']>;
+  summary: Scalars['String'];
+  title: Scalars['String'];
+  video: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
+  _createdAt: Scalars['DateTime'];
   avatar: Scalars['URL'];
   email: Scalars['String'];
   events: Array<Event>;
   id: Scalars['ID'];
   password: Scalars['String'];
+  submissions: Array<Submission>;
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
 };
@@ -286,6 +301,7 @@ export type ResolversTypes = {
   RoutingNumber: ResolverTypeWrapper<Scalars['RoutingNumber']>;
   SafeInt: ResolverTypeWrapper<Scalars['SafeInt']>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Submission: ResolverTypeWrapper<Submission>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
@@ -357,6 +373,7 @@ export type ResolversParentTypes = {
   RoutingNumber: Scalars['RoutingNumber'];
   SafeInt: Scalars['SafeInt'];
   String: Scalars['String'];
+  Submission: Submission;
   Time: Scalars['Time'];
   TimeZone: Scalars['TimeZone'];
   Timestamp: Scalars['Timestamp'];
@@ -415,11 +432,13 @@ export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<Resolv
 }
 
 export type EventResolvers<ContextType = any, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
+  _createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   blocks?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hero?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  submissions?: Resolver<Array<ResolversTypes['Submission']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -594,6 +613,17 @@ export interface SafeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTy
   name: 'SafeInt';
 }
 
+export type SubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Submission'] = ResolversParentTypes['Submission']> = {
+  _createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  summary?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  video?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
   name: 'Time';
 }
@@ -627,11 +657,13 @@ export interface UnsignedIntScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  _createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   avatar?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  submissions?: Resolver<Array<ResolversTypes['Submission']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['JWT']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -699,6 +731,7 @@ export type Resolvers<ContextType = any> = {
   RGBA?: GraphQLScalarType;
   RoutingNumber?: GraphQLScalarType;
   SafeInt?: GraphQLScalarType;
+  Submission?: SubmissionResolvers<ContextType>;
   Time?: GraphQLScalarType;
   TimeZone?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
@@ -713,7 +746,19 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type Unnamed_1_MutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
+}>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', user: { __typename?: 'User', username: string } };
+export type Unnamed_1_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
+
+export type Unnamed_2_MutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type Unnamed_2_Mutation = { __typename?: 'Mutation', loginUser: { __typename?: 'User', token?: any | null } };

@@ -10,4 +10,8 @@ if (!supabaseUrl || !supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default supabase;
+
+// get all tables
 export const USER_TABLE = "Users";
+export const EVENT_TABLE = "Events";
+export const SUBMISSION_TABLE = "Submissions";
