@@ -62,11 +62,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         }
 
         user = await UserModel.findByUsername(userToken.username);
-        events = await Promise.all(
-            (user.events as unknown as string[]).map((id) =>
-                EventModel.findEventById(id)
+        events = (
+            await Promise.all(
+                (user.events as unknown as string[]).map((id) =>
+                    EventModel.findEventById(id).catch((e) => null)
+                )
             )
-        );
+        ).filter((event) => event); // get all events that actually exist;
+
+        console.log(events);
     } catch (e) {
         return {
             redirect: {
