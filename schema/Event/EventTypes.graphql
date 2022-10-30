@@ -17,6 +17,8 @@ type Event {
     blocks: [EventBlock!]!
     published: Boolean!
     submissions: [ID!]!
+    users: [ID!]!
+    author: ID!
 
     _createdAt: DateTime!
 }
@@ -43,6 +45,6 @@ extend type Query {
 }
 
 extend type Mutation {
-    createEvent(title: String!, published: Boolean!): Event!
+    createEvent(title: String!, tagline: String!, published: Boolean!): Event!
     deleteEvent(id: ID!): Event!
 }

@@ -82,7 +82,7 @@ export type Event = {
   hero: Scalars['URL'];
   id: Scalars['ID'];
   published: Scalars['Boolean'];
-  submissions: Array<Submission>;
+  submissions: Array<Scalars['ID']>;
   title: Scalars['String'];
 };
 
@@ -115,6 +115,7 @@ export type Mutation = {
 
 export type MutationCreateEventArgs = {
   published: Scalars['Boolean'];
+  tagline: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -177,23 +178,43 @@ export type User = {
 };
 
 export type Unnamed_1_MutationVariables = Exact<{
+  title: Scalars['String'];
+  tagline: Scalars['String'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', title: string } };
+
+export type Unnamed_2_MutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
   email: Scalars['String'];
 }>;
 
 
-export type Unnamed_1_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
+export type Unnamed_2_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
 
-export type Unnamed_2_MutationVariables = Exact<{
+export type Unnamed_3_MutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type Unnamed_2_Mutation = { __typename?: 'Mutation', loginUser: { __typename?: 'User', token?: any | null } };
+export type Unnamed_3_Mutation = { __typename?: 'Mutation', loginUser: { __typename?: 'User', token?: any | null } };
 
 
+export const Document = gql`
+    mutation ($title: String!, $tagline: String!, $published: Boolean!) {
+  createEvent(title: $title, tagline: $tagline, published: $published) {
+    title
+  }
+}
+    `;
+
+export function useMutation() {
+  return Urql.useMutation<Mutation, MutationVariables>(Document);
+};
 export const Document = gql`
     mutation ($username: String!, $password: String!, $email: String!) {
   createUser(username: $username, password: $password, email: $email) {

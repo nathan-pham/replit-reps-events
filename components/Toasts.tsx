@@ -7,7 +7,7 @@ const Toasts = () => {
     const toasts = useToastStore((s) => s.toasts);
 
     return (
-        <div className="fixed bottom-3 right-3">
+        <div tw="fixed bottom-3 right-3 z-50">
             <AnimatePresence>
                 {toasts.map((t) => (
                     <Toast {...t} key={t.id} />

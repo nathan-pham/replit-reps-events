@@ -81,7 +81,7 @@ export type Event = {
   hero: Scalars['URL'];
   id: Scalars['ID'];
   published: Scalars['Boolean'];
-  submissions: Array<Submission>;
+  submissions: Array<Scalars['ID']>;
   title: Scalars['String'];
 };
 
@@ -114,6 +114,7 @@ export type Mutation = {
 
 export type MutationCreateEventArgs = {
   published: Scalars['Boolean'];
+  tagline: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -438,7 +439,7 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   hero?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  submissions?: Resolver<Array<ResolversTypes['Submission']>, ParentType, ContextType>;
+  submissions?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -534,7 +535,7 @@ export interface MacScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationCreateEventArgs, 'published' | 'title'>>;
+  createEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationCreateEventArgs, 'published' | 'tagline' | 'title'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password' | 'username'>>;
   deleteEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationDeleteEventArgs, 'id'>>;
   loginUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginUserArgs, 'password' | 'username'>>;
@@ -747,18 +748,27 @@ export type Resolvers<ContextType = any> = {
 
 
 export type Unnamed_1_MutationVariables = Exact<{
+  title: Scalars['String'];
+  tagline: Scalars['String'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', title: string } };
+
+export type Unnamed_2_MutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
   email: Scalars['String'];
 }>;
 
 
-export type Unnamed_1_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
+export type Unnamed_2_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
 
-export type Unnamed_2_MutationVariables = Exact<{
+export type Unnamed_3_MutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type Unnamed_2_Mutation = { __typename?: 'Mutation', loginUser: { __typename?: 'User', token?: any | null } };
+export type Unnamed_3_Mutation = { __typename?: 'Mutation', loginUser: { __typename?: 'User', token?: any | null } };

@@ -17,11 +17,14 @@ import EventChip from "components/EventChip";
 import { BiPlanet, BiPlus } from "react-icons/bi";
 import ModalEvent from "components/ModalEvent";
 import useEventStore from "hooks/useEventStore";
+import { useUser } from "hooks/useUserStore";
+import { serverGetUser, serverGetUserEvents } from "utils/serverGetProfile";
 
 const Dashboard: NextPage = ({
     user,
     events,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    useUser(user);
     const setModalOpen = useEventStore((s) => s.setModalOpen);
 
     return (
@@ -60,19 +63,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     let events = [];
 
     try {
-        const userToken = validateToken(new Cookies(req, res).get("token")!);
-        if (!userToken) {
-            throw new Error("Invalid token");
-        }
-
-        user = await UserModel.findByUsername(userToken.username);
-        events = (
-            await Promise.all(
-                (user.events as unknown as string[]).map((id) =>
-                    EventModel.findEventById(id).catch((e) => null)
-                )
-            )
-        ).filter((event) => event); // get all events that actually exist;
+        user = await serverGetUser(req, res);
+        events = await serverGetUserEvents(user.events);
     } catch (e) {
         return {
             redirect: {

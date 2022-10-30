@@ -15,15 +15,13 @@ export const generateToken = ({ id, username, email }: User) =>
     );
 
 export const validateToken = (authHeader: string) => {
-    if (!authHeader) {
-        return false;
-    }
+    if (!authHeader) return null;
 
     const token = authHeader.replace("Bearer ", "").trim();
     try {
         const user = jwt.verify(token, `${process.env.JWT_SECRET}`);
         return user as User;
-    } catch (e) {
-        return false;
-    }
+    } catch (e) {}
+
+    return null;
 };

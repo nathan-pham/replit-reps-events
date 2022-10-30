@@ -5,10 +5,11 @@ import supabase, { EVENT_TABLE, USER_TABLE } from "schema/supabase";
 import UserModel from "schema/User/UserModel";
 
 export const EventMutations: Resolvers["Mutation"] = {
-    createEvent: async (_, { title, published }, { token }) => {
+    createEvent: async (_, { title, tagline, published }, { token }) => {
         return EventModel.createEvent(
             await UserModel.validateUser(token),
             title,
+            tagline,
             published
         );
     },

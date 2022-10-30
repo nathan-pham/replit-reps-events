@@ -1,17 +1,26 @@
+import { useUser } from "hooks/useUserStore";
+import Link from "next/link";
 import { Event } from "schema";
+import buildSlug from "utils/buildSlug";
 
-const EventChip = ({ hero, title, description }: Event) => {
+const EventChip = ({ id, hero, title, description }: Event) => {
+    const user = useUser();
+
     return (
-        <div tw="p-2 border hover:(border-gray-300) rounded-md cursor-pointer transition-colors">
-            <img
-                tw="h-28 w-full object-cover object-top rounded-md"
-                src={hero || "/defaultEvent.jpg"}
-            />
-            <h2 tw="font-semibold text-lg">{title}</h2>
-            <p tw="text-gray-500 text-sm">
-                {description || "This event has no description."}
-            </p>
-        </div>
+        <Link href={buildSlug(user.username!, id, title)}>
+            <div tw="border hover:(border-gray-300) rounded-md cursor-pointer transition-colors">
+                <img
+                    tw="h-28 w-full object-cover object-top rounded-tr-md rounded-tl-md"
+                    src={hero || "/defaultEvent.jpg"}
+                />
+                <div tw="p-2">
+                    <h2 tw="font-semibold text-lg">{title}</h2>
+                    <p tw="text-gray-500 text-sm">
+                        {description || "This event has no description."}
+                    </p>
+                </div>
+            </div>
+        </Link>
     );
 };
 

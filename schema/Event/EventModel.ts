@@ -19,6 +19,7 @@ export default class EventModel {
     static async createEvent(
         partialUser: Partial<User>,
         title: string,
+        description: string,
         published: boolean
     ) {
         if (!partialUser.username) {
@@ -31,10 +32,12 @@ export default class EventModel {
         const { data } = await supabase.from(EVENT_TABLE).insert({
             hero: "",
             title,
-            description: "",
+            description,
             blocks: [],
             published,
+            users: [],
             submissions: [],
+            author: user.id,
         });
 
         if (isValidData(data)) {
