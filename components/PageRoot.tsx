@@ -15,7 +15,7 @@ const PageRoot = ({ title, description, children }: PageRootProps) => {
             <NextHead>
                 <link
                     rel="shortcut icon"
-                    href="/favicon-196.png"
+                    href="/favicon-prompt.png"
                     sizes="196x196"
                     type="image/png"
                 />

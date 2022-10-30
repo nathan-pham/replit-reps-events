@@ -1,16 +1,26 @@
-import { BiPlus, BiChevronDown } from "react-icons/bi";
+import { BiPlus, BiChevronDown, BiUser } from "react-icons/bi";
 import HeaderNotifications from "./HeaderNotifications";
 
-const Header = () => {
+interface HeaderProps {
+    username: string;
+    avatar: string;
+}
+
+const Header = ({ username, avatar }: HeaderProps) => {
     return (
         <header tw="flex items-center justify-between py-3">
             <div tw="flex items-center">
                 <div tw="flex items-center mr-5">
-                    <img
-                        src="https://www.nathanpham.me/logo.png"
-                        tw="h-8 w-8 rounded-full border mr-2"
-                    />
-                    <span tw="text-sm">@phamn23</span>
+                    <div tw="h-8 w-8 rounded-full border mr-2 overflow-hidden">
+                        {avatar ? (
+                            <img src={avatar} tw="w-full h-full object-cover" />
+                        ) : (
+                            <div tw="w-full h-full grid place-items-center bg-gray-100">
+                                <BiUser />
+                            </div>
+                        )}
+                    </div>
+                    <span tw="text-sm">@{username}</span>
                     <BiChevronDown tw="text-gray-600" />
                 </div>
                 <HeaderNotifications />

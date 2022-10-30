@@ -21,15 +21,25 @@ class UserModel {
         return user;
     }
 
+    /**
+     * Get a use from the saved token
+     * @param authHeader - Authorization header in request
+     * @returns User or Error (if user is not authenticated)
+     */
     static async validateUser(authHeader: string) {
         const user = validateToken(authHeader);
-
         return (
             user ||
             Promise.reject(new GraphQLYogaError("User not authenticated"))
         );
     }
 
+    /**
+     * Log in the user
+     * @param username - Username of the user
+     * @param password - Password of the user
+     * @returns User or Error (if user is not able to log in)
+     */
     static async loginUser(username: string, password: string) {
         // check if user already exists
         const user = await UserModel.findByUsername(username).catch(() => ({}));

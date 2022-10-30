@@ -1,20 +1,8 @@
 import { createClient } from "urql";
 
-const getToken = () => {
-    const token = localStorage.getItem("token");
-    return token ? `Bearer ${token}` : "";
-};
-
 const client = createClient({
     url: "/api/graphql",
-    fetchOptions: () => {
-        const token = getToken();
-        return {
-            headers: {
-                Authorization: token,
-            },
-        };
-    },
+    // stopped using fetchOptions w/ localStorage token in favor of server-side cookies
 });
 
 export default client;

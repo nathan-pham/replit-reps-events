@@ -34,8 +34,7 @@ const Login: NextPage = () => {
             );
         }
 
-        // save token & redirect to dashboard
-        localStorage.setItem("token", result.data.createUser.token);
+        // redirect to dashboard
         router.push("/~");
     };
 
