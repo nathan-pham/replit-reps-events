@@ -10,12 +10,12 @@ import { Button, Input } from "components/utils/atoms";
 
 import LoginUser from "components/graphql/LoginUser.graphql";
 import { useMutation } from "urql";
-import useStore from "hooks/useStore";
+import useToastStore from "hooks/useToastStore";
 
 const Login: NextPage = () => {
     const router = useRouter();
     const [_, loginUser] = useMutation(LoginUser);
-    const addToast = useStore((s) => s.addToast);
+    const addToast = useToastStore((s) => s.addToast);
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
 

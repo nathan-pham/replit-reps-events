@@ -1,6 +1,6 @@
-import useStore, { Toast as ToastProps } from "hooks/useStore";
-import { BiX } from "react-icons/bi";
+import useToastStore, { Toast as ToastProps } from "hooks/useToastStore";
 import { motion } from "framer-motion";
+import ButtonClose from "components/ButtonClose";
 
 const toast = {
     show: {
@@ -14,7 +14,7 @@ const toast = {
 };
 
 const Toast = (props: ToastProps) => {
-    const removeToast = useStore((s) => s.removeToast);
+    const removeToast = useToastStore((s) => s.removeToast);
 
     return (
         <motion.aside
@@ -26,12 +26,7 @@ const Toast = (props: ToastProps) => {
         >
             <h1 tw="flex items-center justify-between">
                 <span tw="font-semibold">{props.title}</span>
-                <div
-                    tw="w-5 h-5 grid place-items-center hover:(bg-gray-100 cursor-pointer) rounded-sm transition-colors"
-                    onClick={() => removeToast(props.id)}
-                >
-                    <BiX />
-                </div>
+                <ButtonClose onClick={() => removeToast(props.id)} />
             </h1>
             <p tw="text-gray-500 leading-snug mt-1 text-sm">
                 {props.description}

@@ -11,23 +11,26 @@ import PageWrapper from "components/PageWrapper";
 import { validateToken } from "utils/manageToken";
 import Cookies from "cookies";
 import UserModel from "schema/User/UserModel";
-import { Button } from "components/utils/atoms";
+import { Button, H1 } from "components/utils/atoms";
 import EventModel from "schema/Event/EventModel";
 import EventChip from "components/EventChip";
 import { BiPlanet, BiPlus } from "react-icons/bi";
+import ModalEvent from "components/ModalEvent";
+import useEventStore from "hooks/useEventStore";
 
 const Dashboard: NextPage = ({
     user,
     events,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const setModalOpen = useEventStore((s) => s.setModalOpen);
+
     return (
         <PageRoot>
             <PageWrapper>
                 <Header username={user.username} avatar={user.avatar} />
-                {/* <h1>Registered For</h1> */}
-                <h1 tw="font-bold text-2xl">My Events</h1>
+                <H1>My Events</H1>
                 <div tw="mt-5 flex gap-3">
-                    <Button>
+                    <Button onClick={() => setModalOpen(true)}>
                         <BiPlus />
                         Create Event
                     </Button>
@@ -41,6 +44,7 @@ const Dashboard: NextPage = ({
                         <EventChip key={event.id} {...event} />
                     ))}
                 </div>
+                <ModalEvent />
 
                 <pre>{JSON.stringify(user, null, 2)}</pre>
                 <pre>{JSON.stringify(events, null, 2)}</pre>
@@ -69,8 +73,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
                 )
             )
         ).filter((event) => event); // get all events that actually exist;
-
-        console.log(events);
     } catch (e) {
         return {
             redirect: {

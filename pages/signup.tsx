@@ -9,11 +9,11 @@ import PageRoot from "components/PageRoot";
 import { Button, Input } from "components/utils/atoms";
 import AuthForm from "components/AuthForm";
 import { useRouter } from "next/router";
-import useStore from "hooks/useStore";
+import useToastStore from "hooks/useToastStore";
 
 const Login: NextPage = () => {
     const router = useRouter();
-    const addToast = useStore((s) => s.addToast);
+    const addToast = useToastStore((s) => s.addToast);
     const [_, createUser] = useMutation(CreateUser);
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();

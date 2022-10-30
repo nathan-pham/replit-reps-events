@@ -1,9 +1,10 @@
-import useStore from "hooks/useStore";
-import Toast from "components/Toast";
 import { AnimatePresence } from "framer-motion";
 
+import Toast from "components/Toast";
+import useToastStore from "hooks/useToastStore";
+
 const Toasts = () => {
-    const toasts = useStore((s) => s.toasts);
+    const toasts = useToastStore((s) => s.toasts);
 
     return (
         <div className="fixed bottom-3 right-3">

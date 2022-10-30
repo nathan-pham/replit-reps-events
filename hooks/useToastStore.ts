@@ -8,20 +8,19 @@ export interface Toast {
     id: string;
 }
 
-export interface Store {
+export interface ToastStore {
     toasts: Toast[];
+    removeToast: (id: string) => void;
     addToast: (
         title: string,
         description: string,
         icon?: string,
         id?: string
     ) => void;
-    removeToast: (id: string) => void;
 }
 
-const useStore = create<Store>((set, get) => ({
+const useToastStore = create<ToastStore>((set, get) => ({
     toasts: [],
-
     addToast: (title, description, icon = "none", id = v4()) =>
         set({
             toasts: [...get().toasts, { title, description, icon, id }],
@@ -32,4 +31,4 @@ const useStore = create<Store>((set, get) => ({
         }),
 }));
 
-export default useStore;
+export default useToastStore;
