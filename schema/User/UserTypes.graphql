@@ -4,8 +4,10 @@ type User {
     avatar: URL!
     email: String!
     password: String!
-    events: [Event!]!
-    submissions: [Submission!]!
+    events: [ID!]!
+    submissions: [ID!]!
+    # events: [Event!]!
+    # submissions: [Submission!]!
 
     token: JWT
     _createdAt: DateTime!

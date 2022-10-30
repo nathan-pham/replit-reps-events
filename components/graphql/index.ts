@@ -168,10 +168,10 @@ export type User = {
   _createdAt: Scalars['DateTime'];
   avatar: Scalars['URL'];
   email: Scalars['String'];
-  events: Array<Event>;
+  events: Array<Scalars['ID']>;
   id: Scalars['ID'];
   password: Scalars['String'];
-  submissions: Array<Submission>;
+  submissions: Array<Scalars['ID']>;
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
 };

@@ -16,7 +16,7 @@ type Event {
     description: String!
     blocks: [EventBlock!]!
     published: Boolean!
-    submissions: [Submission!]!
+    submissions: [ID!]!
 
     _createdAt: DateTime!
 }

@@ -1,4 +1,4 @@
-import { Resolvers } from "schema";
+import { Event, Resolvers } from "schema";
 import EventModel from "schema/Event/EventModel";
 import UserModel from "schema/User/UserModel";
 
@@ -9,5 +9,8 @@ export const EventMutations: Resolvers["Mutation"] = {
             title,
             published
         );
+    },
+    deleteEvent: async (_, { id }, { token }) => {
+        return {} as Event;
     },
 };

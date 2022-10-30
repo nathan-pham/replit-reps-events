@@ -167,10 +167,10 @@ export type User = {
   _createdAt: Scalars['DateTime'];
   avatar: Scalars['URL'];
   email: Scalars['String'];
-  events: Array<Event>;
+  events: Array<Scalars['ID']>;
   id: Scalars['ID'];
   password: Scalars['String'];
-  submissions: Array<Submission>;
+  submissions: Array<Scalars['ID']>;
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
 };
@@ -660,10 +660,10 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   _createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   avatar?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType>;
+  events?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  submissions?: Resolver<Array<ResolversTypes['Submission']>, ParentType, ContextType>;
+  submissions?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['JWT']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

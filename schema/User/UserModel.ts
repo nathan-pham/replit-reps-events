@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { User } from "schema";
 import supabase, { USER_TABLE } from "schema/supabase";
 import { generateToken, validateToken } from "utils/manageToken";
+import isValidData from "utils/isValidData";
 
 // another solution for destructuring in class props proposed here
 // https://github.com/Microsoft/TypeScript/issues/5326
@@ -86,8 +87,8 @@ class UserModel {
         });
 
         // return user with jwt token
-        if (data && Array.isArray(data) && data.length > 0) {
-            const user = data[0] as User;
+        if (isValidData(data)) {
+            const user = data![0] as User;
             user.token = generateToken(user);
             return user;
         }
@@ -107,8 +108,8 @@ class UserModel {
             .eq("username", username);
 
         // return user, if found
-        if (data && Array.isArray(data) && data.length > 0) {
-            return data[0] as User;
+        if (isValidData(data)) {
+            return data![0] as User;
         }
 
         return Promise.reject(new GraphQLYogaError("User not found"));

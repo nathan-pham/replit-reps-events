@@ -2,8 +2,20 @@ import supabase, { EVENT_TABLE, USER_TABLE } from "schema/supabase";
 import { User, Event } from "schema";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 import UserModel from "schema/User/UserModel";
+import isValidData from "utils/isValidData";
 
 export default class EventModel {
+    static async findEventById(id: string) {
+        const { data } = await supabase.from(EVENT_TABLE).select().eq("id", id);
+
+        if (isValidData(data)) {
+            const event = data![0] as Event;
+            return event;
+        }
+
+        return Promise.reject(new GraphQLYogaError("Invalid event id"));
+    }
+
     static async createEvent(
         partialUser: Partial<User>,
         title: string,
@@ -25,8 +37,8 @@ export default class EventModel {
             submissions: [],
         });
 
-        if (data && Array.isArray(data) && data.length > 0) {
-            const event = data[0] as Event;
+        if (isValidData(data)) {
+            const event = data![0] as Event;
 
             // add link to user
             await supabase
