@@ -1,3 +1,4 @@
+import useEventStore from "hooks/useEventStore";
 import { BiPlus, BiChevronDown, BiUser } from "react-icons/bi";
 import HeaderNotifications from "./HeaderNotifications";
 
@@ -7,6 +8,8 @@ interface HeaderProps {
 }
 
 const Header = ({ username, avatar }: HeaderProps) => {
+    const setModalOpen = useEventStore((s) => s.setModalOpen);
+
     return (
         <header tw="flex items-center justify-between py-3">
             <div tw="flex items-center">
@@ -25,7 +28,10 @@ const Header = ({ username, avatar }: HeaderProps) => {
                 </div>
                 <HeaderNotifications />
             </div>
-            <button tw="bg-blue-200 text-blue-600 h-7 w-7 grid place-items-center rounded-lg hover:(bg-blue-300 text-blue-800) transition-colors">
+            <button
+                tw="bg-blue-200 text-blue-600 h-7 w-7 grid place-items-center rounded-lg hover:(bg-blue-300 text-blue-800) transition-colors"
+                onClick={() => setModalOpen(true)}
+            >
                 <BiPlus />
             </button>
         </header>

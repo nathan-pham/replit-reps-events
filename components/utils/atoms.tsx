@@ -11,7 +11,7 @@ export const Input = styled.input`
 
 export const Button = styled.button(
     ({ variant = "default" }: { variant?: "default" | "hollow" | "none" }) => [
-        tw`flex items-center justify-center gap-1 text-center rounded-md px-2 py-1 text-sm transition-colors`,
+        tw`flex items-center justify-center gap-1 text-center rounded-md px-2 py-1 text-sm transition-colors cursor-pointer border border-transparent`,
         variant === "default" &&
             tw`border border-transparent bg-blue-300 hover:(border-blue-500)`,
         variant === "hollow" && tw`border bg-white hover:(border-gray-300)`,
