@@ -76,6 +76,7 @@ export type Scalars = {
 export type Event = {
   __typename?: 'Event';
   _createdAt: Scalars['DateTime'];
+  author: Scalars['ID'];
   blocks: Array<EventBlock>;
   description: Scalars['String'];
   hero: Scalars['URL'];
@@ -83,6 +84,7 @@ export type Event = {
   published: Scalars['Boolean'];
   submissions: Array<Scalars['ID']>;
   title: Scalars['String'];
+  users: Array<Scalars['ID']>;
 };
 
 export type EventBlock = {
@@ -434,6 +436,7 @@ export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<Resolv
 
 export type EventResolvers<ContextType = any, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
   _createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  author?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   blocks?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hero?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
@@ -441,6 +444,7 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   submissions?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -13,6 +13,7 @@ import UserModel from "schema/User/UserModel";
 import EventModel from "schema/Event/EventModel";
 import { separateSlug } from "utils/manageSlug";
 import { Button } from "components/utils/atoms";
+import { useUser } from "hooks/useUserStore";
 
 const Event: NextPage = ({
     user,
@@ -28,9 +29,9 @@ const Event: NextPage = ({
                 />
                 <h1 tw="text-4xl font-extrabold mt-4">{event.title}</h1>
                 <p tw="text-gray-700 mt-2">{event.description}</p>
-                <Button>
+                {/* <Button>
                     <BiClipboard /> Register
-                </Button>
+                </Button> */}
 
                 <p tw="text-gray-700 mt-2">
                     Join us for our first ever Tutorial Jam, where we challenge

@@ -1,5 +1,6 @@
 mutation ($title: String!, $tagline: String!, $published: Boolean!) {
     createEvent(title: $title, tagline: $tagline, published: $published) {
+        id
         title
     }
 }

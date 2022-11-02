@@ -7,8 +7,11 @@ import { useMutation } from "urql";
 import CreateEvent from "components/graphql/CreateEvent.graphql";
 import useToastStore from "hooks/useToastStore";
 import { useRouter } from "next/router";
+import { buildSlug } from "utils/manageSlug";
+import { useUser } from "hooks/useUserStore";
 
 const ModalEvent = () => {
+    const user = useUser();
     const [modalOpen, setModalOpen] = useEventStore((s) => [
         s.modalOpen,
         s.setModalOpen,
@@ -37,7 +40,14 @@ const ModalEvent = () => {
         }
 
         // redirect to dashboard
-        router.push("/~");
+        setModalOpen(false);
+        router.push(
+            buildSlug(
+                user.username!,
+                result.data.createEvent.id,
+                result.data.createEvent.title
+            )
+        );
     };
 
     return (

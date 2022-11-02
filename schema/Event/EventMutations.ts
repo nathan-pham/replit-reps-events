@@ -8,8 +8,8 @@ export const EventMutations: Resolvers["Mutation"] = {
     createEvent: async (_, { title, tagline, published }, { token }) => {
         return EventModel.createEvent(
             await UserModel.validateUser(token),
-            title,
-            tagline,
+            title.trim(),
+            tagline.trim(),
             published
         );
     },

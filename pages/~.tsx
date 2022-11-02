@@ -21,7 +21,6 @@ const Dashboard: NextPage = ({
     user,
     events,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    useUser(user);
     const setModalOpen = useEventStore((s) => s.setModalOpen);
 
     return (

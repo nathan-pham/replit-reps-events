@@ -77,6 +77,7 @@ export type Scalars = {
 export type Event = {
   __typename?: 'Event';
   _createdAt: Scalars['DateTime'];
+  author: Scalars['ID'];
   blocks: Array<EventBlock>;
   description: Scalars['String'];
   hero: Scalars['URL'];
@@ -84,6 +85,7 @@ export type Event = {
   published: Scalars['Boolean'];
   submissions: Array<Scalars['ID']>;
   title: Scalars['String'];
+  users: Array<Scalars['ID']>;
 };
 
 export type EventBlock = {

@@ -15,7 +15,7 @@ const EventChip = ({ id, hero, title, description }: Event) => {
                 />
                 <div tw="p-2">
                     <h2 tw="font-semibold text-lg">{title}</h2>
-                    <p tw="text-gray-500 text-sm">
+                    <p tw="text-gray-500 text-sm max-w-full whitespace-nowrap overflow-x-hidden text-ellipsis">
                         {description || "This event has no description."}
                     </p>
                 </div>
