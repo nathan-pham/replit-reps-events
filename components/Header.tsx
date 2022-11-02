@@ -1,39 +1,19 @@
-import useEventStore from "hooks/useEventStore";
-import { BiPlus, BiChevronDown, BiUser } from "react-icons/bi";
-import HeaderNotifications from "./HeaderNotifications";
+import { User } from "schema";
+import HeaderAuth from "./HeaderAuth";
+import HeaderPlain from "./HeaderPlain";
 
 interface HeaderProps {
-    username: string;
-    avatar: string;
+    user: User | null;
 }
 
-const Header = ({ username, avatar }: HeaderProps) => {
-    const setModalOpen = useEventStore((s) => s.setModalOpen);
-
+const Header = ({ user }: HeaderProps) => {
     return (
-        <header tw="flex items-center justify-between py-3">
-            <div tw="flex items-center">
-                <div tw="flex items-center mr-5">
-                    <div tw="h-8 w-8 rounded-full border mr-2 overflow-hidden">
-                        {avatar ? (
-                            <img src={avatar} tw="w-full h-full object-cover" />
-                        ) : (
-                            <div tw="w-full h-full grid place-items-center bg-gray-100">
-                                <BiUser />
-                            </div>
-                        )}
-                    </div>
-                    <span tw="text-sm">@{username}</span>
-                    <BiChevronDown tw="text-gray-600" />
-                </div>
-                <HeaderNotifications />
-            </div>
-            <button
-                tw="bg-blue-200 text-blue-600 h-7 w-7 grid place-items-center rounded-lg hover:(bg-blue-300 text-blue-800) transition-colors"
-                onClick={() => setModalOpen(true)}
-            >
-                <BiPlus />
-            </button>
+        <header tw="flex items-center justify-between py-3 w-full">
+            {user ? (
+                <HeaderAuth username={user.username} avatar={user.avatar} />
+            ) : (
+                <HeaderPlain />
+            )}
         </header>
     );
 };

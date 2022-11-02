@@ -8,11 +8,8 @@ import type { Event } from "schema";
 import PageRoot from "components/PageRoot";
 import Header from "components/Header";
 import PageWrapper from "components/PageWrapper";
-import { validateToken } from "utils/manageToken";
-import Cookies from "cookies";
 import UserModel from "schema/User/UserModel";
 import { Button, H1 } from "components/utils/atoms";
-import EventModel from "schema/Event/EventModel";
 import EventChip from "components/EventChip";
 import { BiPlanet, BiPlus } from "react-icons/bi";
 import ModalEvent from "components/ModalEvent";
@@ -30,7 +27,7 @@ const Dashboard: NextPage = ({
     return (
         <PageRoot>
             <PageWrapper>
-                <Header username={user.username} avatar={user.avatar} />
+                <Header user={user} />
                 <H1>My Events</H1>
                 <div tw="mt-5 flex gap-3">
                     <Button onClick={() => setModalOpen(true)}>
@@ -47,7 +44,6 @@ const Dashboard: NextPage = ({
                         <EventChip key={event.id} {...event} />
                     ))}
                 </div>
-                <ModalEvent />
 
                 <pre>{JSON.stringify(user, null, 2)}</pre>
                 <pre>{JSON.stringify(events, null, 2)}</pre>

@@ -56,7 +56,7 @@ const Modal = ({ title, show, setShow, children }: ModalProps) => {
                         }}
                     >
                         <motion.div
-                            tw="rounded-md shadow-xl p-4 border bg-white w-80"
+                            tw="rounded-md shadow-xl p-4 bg-white border w-80"
                             variants={modal}
                             initial="leave"
                             animate="enter"
