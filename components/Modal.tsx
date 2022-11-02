@@ -45,8 +45,8 @@ const Modal = ({ title, show, setShow, children }: ModalProps) => {
                     <motion.div
                         tw="fixed top-0 left-0 z-40 w-full h-full bg-white bg-opacity-50 grid place-items-center"
                         variants={modalWrapper}
-                        initial="leave"
                         animate="enter"
+                        initial="leave"
                         exit="leave"
                         ref={parentRef}
                         onClick={(e) => {
@@ -58,8 +58,8 @@ const Modal = ({ title, show, setShow, children }: ModalProps) => {
                         <motion.div
                             tw="rounded-md shadow-xl p-4 bg-white border w-80"
                             variants={modal}
-                            initial="leave"
                             animate="enter"
+                            initial="leave"
                             exit="leave"
                         >
                             <div tw="flex items-center justify-between">

@@ -8,12 +8,10 @@ import { BiClipboard } from "react-icons/bi";
 import Header from "components/Header";
 import PageRoot from "components/PageRoot";
 import PageWrapper from "components/PageWrapper";
-import { serverGetUser, serverGetUserEvents } from "utils/serverGetProfile";
+import { serverGetUser } from "utils/serverGetProfile";
 import UserModel from "schema/User/UserModel";
 import EventModel from "schema/Event/EventModel";
 import { separateSlug } from "utils/manageSlug";
-import { Button } from "components/utils/atoms";
-import { useUser } from "hooks/useUserStore";
 
 const Event: NextPage = ({
     user,

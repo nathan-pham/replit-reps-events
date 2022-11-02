@@ -9,12 +9,21 @@ interface PortalProps {
 }
 
 const Portal = ({ as = "div", children, ...props }: PortalProps) => {
-    const portalRef = useRef(document.createElement(as));
+    const portalRef = useRef(
+        typeof window === "undefined" ? null : document.createElement(as)
+    );
+
+    if (portalRef.current === null) {
+        return <>{children}</>;
+    }
 
     useEffect(() => {
-        Object.assign(portalRef.current, props);
-        document.body.appendChild(portalRef.current);
-        () => portalRef.current.remove();
+        if (portalRef.current) {
+            Object.assign(portalRef.current, props);
+            document.body.appendChild(portalRef.current);
+        }
+
+        () => portalRef.current?.remove();
     }, []);
 
     return createPortal(children, portalRef.current);

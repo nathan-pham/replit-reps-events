@@ -3,19 +3,17 @@ import type {
     InferGetServerSidePropsType,
     NextPage,
 } from "next";
-import type { Event } from "schema";
 
 import PageRoot from "components/PageRoot";
 import Header from "components/Header";
 import PageWrapper from "components/PageWrapper";
 import UserModel from "schema/User/UserModel";
-import { Button, H1 } from "components/utils/atoms";
-import EventChip from "components/EventChip";
+import { Button } from "components/utils/atoms";
 import { BiPlanet, BiPlus } from "react-icons/bi";
-import ModalEvent from "components/ModalEvent";
 import useEventStore from "hooks/useEventStore";
-import { useUser } from "hooks/useUserStore";
 import { serverGetUser, serverGetUserEvents } from "utils/serverGetProfile";
+import DashboardSection from "components/DashboardSection";
+import EventChips from "components/EventChips";
 
 const Dashboard: NextPage = ({
     user,
@@ -27,22 +25,19 @@ const Dashboard: NextPage = ({
         <PageRoot>
             <PageWrapper>
                 <Header user={user} />
-                <H1>My Events</H1>
-                <div tw="mt-5 flex gap-3">
-                    <Button onClick={() => setModalOpen(true)}>
-                        <BiPlus />
-                        Create Event
-                    </Button>
+                <DashboardSection title="Registered Events">
                     <Button variant="hollow">
                         <BiPlanet />
                         Explore Events
                     </Button>
-                </div>
-                <div tw="grid grid-cols-3 gap-3 mt-3">
-                    {events.map((event: Event) => (
-                        <EventChip key={event.id} {...event} />
-                    ))}
-                </div>
+                </DashboardSection>
+                <DashboardSection title="My Events">
+                    <Button onClick={() => setModalOpen(true)} tw="mt-4">
+                        <BiPlus />
+                        Create Event
+                    </Button>
+                    <EventChips events={events} />
+                </DashboardSection>
 
                 <pre>{JSON.stringify(user, null, 2)}</pre>
                 <pre>{JSON.stringify(events, null, 2)}</pre>
