@@ -3,7 +3,7 @@ import type {
     GetServerSideProps,
     InferGetServerSidePropsType,
 } from "next";
-import { BiClipboard } from "react-icons/bi";
+import { BiUpload, BiMove, BiPencil, BiCog } from "react-icons/bi";
 
 import Header from "components/Header";
 import PageRoot from "components/PageRoot";
@@ -12,37 +12,97 @@ import { serverGetUser } from "utils/serverGetProfile";
 import UserModel from "schema/User/UserModel";
 import EventModel from "schema/Event/EventModel";
 import { separateSlug } from "utils/manageSlug";
+import { Button } from "components/utils/atoms";
+import { ClickableIcon, Editable, EditableSet } from "components/utils/styles";
+import Block from "components/Block";
+import useEditorStore from "hooks/useEditorStore";
+import {
+    DndContext,
+    DragEndEvent,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    rectSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const Event: NextPage = ({
     user,
     event,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const [blocks, setBlocks] = useEditorStore((s) => [s.blocks, s.setBlocks]);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = (e: DragEndEvent) => {
+        const { active, over } = e;
+        if (over && active.id !== over.id) {
+            const oldIndex = blocks.findIndex((b) => b.id === active.id);
+            const newIndex = blocks.findIndex((b) => b.id === over.id);
+            setBlocks(arrayMove(blocks, oldIndex, newIndex));
+        }
+    };
+
     return (
         <PageRoot>
             <PageWrapper>
                 <Header user={user} />
-                <img
-                    src="/defaultEvent.jpg"
-                    tw="w-full h-72 rounded-lg object-cover object-top"
-                />
-                <h1 tw="text-4xl font-extrabold mt-4">{event.title}</h1>
-                <p tw="text-gray-700 mt-2">{event.description}</p>
-                {/* <Button>
-                    <BiClipboard /> Register
-                </Button> */}
+                <div tw="w-full h-72 relative" className="group">
+                    <img
+                        src="/defaultEvent.jpg"
+                        tw="w-full h-full rounded-xl border object-cover object-top"
+                    />
+                    <div tw="absolute right-3 bottom-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button>
+                            <BiUpload />
+                            Change
+                        </Button>
+                        <Button variant="hollow">
+                            <BiMove />
+                            Reposition
+                        </Button>
+                    </div>
+                </div>
 
-                <p tw="text-gray-700 mt-2">
-                    Join us for our first ever Tutorial Jam, where we challenge
-                    you to teach something amazing in a single Repl using our
-                    brand new Tutorial feature! You don't need to be a teacher.
-                </p>
-                <p tw="text-gray-700 mt-2">
-                    Everyone can teach. In fact you may have some new,
-                    interesting way of showing us how to do something that a
-                    traditional teacher may not have thought to do.
-                </p>
-                <h2 tw="text-3xl font-bold mt-4">Tasks</h2>
-                <div></div>
+                <Editable className="group mt-4">
+                    <EditableSet>
+                        <ClickableIcon>
+                            <BiPencil />
+                        </ClickableIcon>
+                        <ClickableIcon>
+                            <BiCog />
+                        </ClickableIcon>
+                    </EditableSet>
+
+                    <h1 tw="text-4xl font-bold">{event.title}</h1>
+                </Editable>
+                <p tw="mt-2">{event.description}</p>
+
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext
+                        items={blocks}
+                        strategy={rectSortingStrategy}
+                    >
+                        {blocks.map((b) => (
+                            <Block key={b.id} {...b} />
+                        ))}
+                    </SortableContext>
+                </DndContext>
             </PageWrapper>
         </PageRoot>
     );

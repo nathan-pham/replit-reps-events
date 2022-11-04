@@ -5,7 +5,7 @@ export const Input = styled.input`
     &[type="password"],
     &[type="text"],
     &[type="email"] {
-        ${tw`border border-gray-200 bg-gray-50 rounded-md py-1 px-2 text-sm hover:(border-gray-300) focus:(border-blue-500 outline-none) transition-colors`}
+        ${tw`text-sm border border-gray-200 bg-gray-50 rounded-md py-1 px-2 hover:(border-gray-300) focus:(border-blue-500 outline-none) transition-colors`}
     }
 `;
 

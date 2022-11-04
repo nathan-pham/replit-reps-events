@@ -6,6 +6,7 @@ type User {
     password: String!
     events: [ID!]!
     submissions: [ID!]!
+    # TODO: add roles
     # events: [Event!]!
     # submissions: [Submission!]!
 

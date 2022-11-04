@@ -80,6 +80,7 @@ export type Event = {
   blocks: Array<EventBlock>;
   description: Scalars['String'];
   hero: Scalars['URL'];
+  heroY: Scalars['Float'];
   id: Scalars['ID'];
   published: Scalars['Boolean'];
   submissions: Array<Scalars['ID']>;
@@ -262,6 +263,7 @@ export type ResolversTypes = {
   Event: ResolverTypeWrapper<Event>;
   EventBlock: ResolverTypeWrapper<EventBlock>;
   EventBlockType: EventBlockType;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
@@ -334,6 +336,7 @@ export type ResolversParentTypes = {
   EmailAddress: Scalars['EmailAddress'];
   Event: Event;
   EventBlock: EventBlock;
+  Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
@@ -440,6 +443,7 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   blocks?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hero?: Resolver<ResolversTypes['URL'], ParentType, ContextType>;
+  heroY?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   published?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   submissions?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -758,7 +762,7 @@ export type Unnamed_1_MutationVariables = Exact<{
 }>;
 
 
-export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', title: string } };
+export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: string, title: string } };
 
 export type Unnamed_2_MutationVariables = Exact<{
   username: Scalars['String'];

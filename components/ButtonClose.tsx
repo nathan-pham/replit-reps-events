@@ -1,3 +1,4 @@
+import { ClickableIcon } from "components/utils/styles";
 import { BiX } from "react-icons/bi";
 
 interface ButtonCloseProps {
@@ -6,12 +7,12 @@ interface ButtonCloseProps {
 
 const ButtonClose = ({ onClick }: ButtonCloseProps) => {
     return (
-        <button
-            tw="w-5 h-5 grid place-items-center hover:(bg-gray-100 cursor-pointer) rounded-sm transition-colors"
+        <ClickableIcon
+            tw="w-5 h-5 grid place-items-center p-0"
             onClick={onClick}
         >
             <BiX />
-        </button>
+        </ClickableIcon>
     );
 };
 

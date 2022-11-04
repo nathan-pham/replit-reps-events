@@ -1,9 +1,10 @@
 import Popup from "components/Popup";
 import PopupLink from "components/PopupLink";
 import useEventStore from "hooks/useEventStore";
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { BiPlus, BiChevronDown, BiUser } from "react-icons/bi";
-import HeaderNotifications from "./HeaderNotifications";
+import { ClickableIcon } from "components/utils/styles";
+import { BiBell } from "react-icons/bi";
 
 interface HeaderAuthProps {
     username: string;
@@ -18,7 +19,7 @@ const HeaderAuth = ({ username, avatar }: HeaderAuthProps) => {
         <>
             <div tw="flex items-center">
                 <div tw="flex items-center mr-5">
-                    <div tw="h-9 w-9 rounded-full border mr-2 overflow-hidden">
+                    <div tw="h-9 w-9 rounded-full border mr-2 overflow-hidden cursor-pointer">
                         {avatar ? (
                             <img src={avatar} tw="w-full h-full object-cover" />
                         ) : (
@@ -32,14 +33,15 @@ const HeaderAuth = ({ username, avatar }: HeaderAuthProps) => {
                         <BiChevronDown tw="text-gray-600" />
                     </div>
                     <Popup handleRef={handleRef}>
-                        <div tw="w-32">
-                            <PopupLink href={`/${username}`}>Profile</PopupLink>
-                            <PopupLink href="/account">Account</PopupLink>
-                            <PopupLink href="/api/logout">Log out</PopupLink>
-                        </div>
+                        <PopupLink href="/~">Home</PopupLink>
+                        <PopupLink href={`/${username}`}>Profile</PopupLink>
+                        <PopupLink href="/account">Account</PopupLink>
+                        <PopupLink href="/api/logout">Log out</PopupLink>
                     </Popup>
                 </div>
-                <HeaderNotifications />
+                <ClickableIcon>
+                    <BiBell />
+                </ClickableIcon>
             </div>
             <button
                 tw="bg-blue-200 text-blue-600 h-7 w-7 grid place-items-center rounded-lg hover:(bg-blue-300 text-blue-800) transition-colors"

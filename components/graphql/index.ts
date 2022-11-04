@@ -81,6 +81,7 @@ export type Event = {
   blocks: Array<EventBlock>;
   description: Scalars['String'];
   hero: Scalars['URL'];
+  heroY: Scalars['Float'];
   id: Scalars['ID'];
   published: Scalars['Boolean'];
   submissions: Array<Scalars['ID']>;
@@ -186,7 +187,7 @@ export type Unnamed_1_MutationVariables = Exact<{
 }>;
 
 
-export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', title: string } };
+export type Unnamed_1_Mutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: string, title: string } };
 
 export type Unnamed_2_MutationVariables = Exact<{
   username: Scalars['String'];
@@ -209,6 +210,7 @@ export type Unnamed_3_Mutation = { __typename?: 'Mutation', loginUser: { __typen
 export const Document = gql`
     mutation ($title: String!, $tagline: String!, $published: Boolean!) {
   createEvent(title: $title, tagline: $tagline, published: $published) {
+    id
     title
   }
 }

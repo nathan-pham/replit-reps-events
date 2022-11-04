@@ -31,6 +31,7 @@ export default class EventModel {
         // create event
         const { data } = await supabase.from(EVENT_TABLE).insert({
             hero: "",
+            heroY: 0,
             title,
             description,
             blocks: [],

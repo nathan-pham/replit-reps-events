@@ -3,8 +3,10 @@ import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
 interface PopupProps {
     children: ReactNode;
-    handleMode?: "center" | "left";
     handleRef: RefObject<HTMLElement>;
+    overrideShow?: boolean;
+    handleMode?: "center" | "left";
+    clickable?: boolean;
 }
 
 const popup = {
@@ -50,9 +52,25 @@ const positionPopup = (
     }
 };
 
-const Popup = ({ handleRef, handleMode = "left", children }: PopupProps) => {
+const Popup = ({
+    handleRef,
+    handleMode = "left",
+    clickable = false,
+    overrideShow = true,
+    children,
+}: PopupProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const [show, setShow] = useState(false);
+
+    // bit hacky
+    // delay to adjust to the new height; for rapidly changing heights driven by state
+    useEffect(() => {
+        let timeoutId = setTimeout(() => {
+            positionPopup(handleRef.current, ref.current, handleMode);
+        }, 1);
+
+        return () => clearTimeout(timeoutId);
+    }, [overrideShow]);
 
     useEffect(() => {
         const openPopup = () => {
@@ -65,7 +83,7 @@ const Popup = ({ handleRef, handleMode = "left", children }: PopupProps) => {
 
             // if you've clicked inside of the popup or on the handle, don't close
             if (
-                ref.current?.contains(target) ||
+                (ref.current?.contains(target) && clickable) ||
                 handleRef.current?.contains(target)
             ) {
                 return;
@@ -86,15 +104,17 @@ const Popup = ({ handleRef, handleMode = "left", children }: PopupProps) => {
     return (
         <div ref={ref} tw="fixed z-30">
             <AnimatePresence>
-                {show && (
+                {show && overrideShow && (
                     <motion.div
-                        tw="rounded-md border shadow-lg bg-white"
+                        tw="rounded-md border shadow-lg bg-white overflow-y-auto"
                         variants={popup}
                         animate="enter"
                         initial="leave"
                         exit="leave"
                     >
-                        {children}
+                        <div className="min-w-[8rem] max-h-[8rem]">
+                            {children}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

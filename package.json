@@ -10,6 +10,8 @@
         "generate": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
+        "@dnd-kit/core": "^6.0.5",
+        "@dnd-kit/sortable": "^7.0.1",
         "@emotion/css": "^11.10.0",
         "@emotion/react": "^11.10.4",
         "@emotion/styled": "^11.10.4",
@@ -17,6 +19,7 @@
         "@supabase/supabase-js": "^1.35.7",
         "@types/bcryptjs": "^2.4.2",
         "@types/cookies": "^0.7.7",
+        "@types/marked": "^4.0.7",
         "@types/uuid": "^8.3.4",
         "bcryptjs": "^2.4.3",
         "cookies": "^0.8.0",
@@ -24,6 +27,7 @@
         "graphql": "^16.6.0",
         "graphql-scalars": "^1.18.0",
         "graphql-tag": "^2.12.6",
+        "marked": "^4.2.1",
         "next": "^12.3.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",

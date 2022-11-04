@@ -12,6 +12,7 @@ type Submission {
 type Event {
     id: ID!
     hero: URL!
+    heroY: Float!
     title: String!
     description: String!
     blocks: [EventBlock!]!
