@@ -25,21 +25,30 @@ type Event {
 }
 
 type EventBlock {
-    type: EventBlockType!
-    children: [EventBlock!]!
+    id: ID!
+    type: String!
+    content: String!
+    children: [EventBlock]!
 }
 
-enum EventBlockType {
-    TITLE
-    DIVIDER
-    PARAGRAPH
-    IMAGE
-    VIDEO
-    HTML
-    OL_LIST
-    UL_LIST
-    LIST_CHILD
+input EventBlockInput {
+    id: ID!
+    type: String!
+    content: String!
+    children: [EventBlockInput]!
 }
+
+# enum EventBlockType {
+#     TITLE
+#     DIVIDER
+#     PARAGRAPH
+#     IMAGE
+#     VIDEO
+#     HTML
+#     OL_LIST
+#     UL_LIST
+#     LIST_CHILD
+# }
 
 extend type Query {
     event(id: ID!): Event!
@@ -48,4 +57,22 @@ extend type Query {
 extend type Mutation {
     createEvent(title: String!, tagline: String!, published: Boolean!): Event!
     deleteEvent(id: ID!): Event!
+
+    # update event blocks
+    removeEventBlock(eventId: ID!, blockId: ID!): Event!
+    updateEventBlock(
+        eventId: ID!
+        blockId: ID!
+        block: EventBlockInput!
+    ): Event!
+    moveEventBlock(eventId: ID!, blockId: ID!, newIndex: Int!): Event!
+
+    # update global event details
+    updateEventHeroY(id: ID!, heroY: Float!): Event!
+    updateEventDetails(
+        id: ID!
+        title: String!
+        tagline: String!
+        published: Boolean!
+    ): Event!
 }

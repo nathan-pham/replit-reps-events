@@ -1,29 +1,36 @@
 import create from "zustand";
 import { v4 } from "uuid";
 
-export interface Block {
-    type: string;
-    content: string;
-    id: string;
-}
+import { EventBlock as Block } from "schema";
+
+// export interface Block {
+//     type: string;
+//     content: string;
+//     id: string;
+// }
 
 interface EditorStore {
     blocks: Block[];
     setBlocks: (blocks: Block[]) => void;
     addBlock: (type: string, content: string) => void;
+    removeBlock: (id: string) => void;
     insertBlock: (id: string, type: string, content: string) => void;
     updateBlock: (id: string, partialBlock: Partial<Block>) => void;
 }
 
 const createBlock = (type: string, content: string) => ({
+    id: v4(),
     type,
     content,
-    id: v4(),
+    children: [],
 });
 
 const useEditorStore = create<EditorStore>((set, get) => ({
-    blocks: [{ type: "text", content: "Hello World", id: v4() }],
+    blocks: [{ id: v4(), type: "text", content: "Hello World", children: [] }],
     setBlocks: (blocks) => set({ blocks }),
+
+    removeBlock: (id) =>
+        set({ blocks: get().blocks.filter((b) => b.id !== id) }),
 
     addBlock: (type, content) =>
         set({ blocks: [...get().blocks, createBlock(type, content)] }),

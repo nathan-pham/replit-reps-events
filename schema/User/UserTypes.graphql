@@ -1,3 +1,9 @@
+enum UserRoles {
+    ADMIN
+    REPLIT_REP
+    EARLY_BIRD
+}
+
 type User {
     id: ID!
     username: String!
@@ -6,7 +12,7 @@ type User {
     password: String!
     events: [ID!]!
     submissions: [ID!]!
-    # TODO: add roles
+    roles: [UserRoles]!
     # events: [Event!]!
     # submissions: [Submission!]!
 
@@ -21,4 +27,7 @@ extend type Query {
 extend type Mutation {
     createUser(username: String!, email: String!, password: String!): User!
     loginUser(username: String!, password: String!): User!
+
+    addUserRole(role: UserRoles!): User!
+    removeUserRole(role: UserRoles!): User!
 }

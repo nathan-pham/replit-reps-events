@@ -90,28 +90,37 @@ export type Event = {
 
 export type EventBlock = {
   __typename?: 'EventBlock';
-  children: Array<EventBlock>;
-  type: EventBlockType;
+  children: Array<Maybe<EventBlock>>;
+  content: Scalars['String'];
+  id: Scalars['ID'];
+  type: Scalars['String'];
 };
 
-export enum EventBlockType {
-  Divider = 'DIVIDER',
-  Html = 'HTML',
-  Image = 'IMAGE',
-  ListChild = 'LIST_CHILD',
-  OlList = 'OL_LIST',
-  Paragraph = 'PARAGRAPH',
-  Title = 'TITLE',
-  UlList = 'UL_LIST',
-  Video = 'VIDEO'
-}
+export type EventBlockInput = {
+  children: Array<InputMaybe<EventBlockInput>>;
+  content: Scalars['String'];
+  id: Scalars['ID'];
+  type: Scalars['String'];
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addUserRole: User;
   createEvent: Event;
   createUser: User;
   deleteEvent: Event;
   loginUser: User;
+  moveEventBlock: Event;
+  removeEventBlock: Event;
+  removeUserRole: User;
+  updateEventBlock: Event;
+  updateEventDetails: Event;
+  updateEventHeroY: Event;
+};
+
+
+export type MutationAddUserRoleArgs = {
+  role: UserRoles;
 };
 
 
@@ -137,6 +146,45 @@ export type MutationDeleteEventArgs = {
 export type MutationLoginUserArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+
+export type MutationMoveEventBlockArgs = {
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+  newIndex: Scalars['Int'];
+};
+
+
+export type MutationRemoveEventBlockArgs = {
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationRemoveUserRoleArgs = {
+  role: UserRoles;
+};
+
+
+export type MutationUpdateEventBlockArgs = {
+  block: EventBlockInput;
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventDetailsArgs = {
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+  tagline: Scalars['String'];
+  title: Scalars['String'];
+};
+
+
+export type MutationUpdateEventHeroYArgs = {
+  heroY: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 export type Query = {
@@ -174,10 +222,17 @@ export type User = {
   events: Array<Scalars['ID']>;
   id: Scalars['ID'];
   password: Scalars['String'];
+  roles: Array<Maybe<UserRoles>>;
   submissions: Array<Scalars['ID']>;
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
 };
+
+export enum UserRoles {
+  Admin = 'ADMIN',
+  EarlyBird = 'EARLY_BIRD',
+  ReplitRep = 'REPLIT_REP'
+}
 
 
 
@@ -262,7 +317,7 @@ export type ResolversTypes = {
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   Event: ResolverTypeWrapper<Event>;
   EventBlock: ResolverTypeWrapper<EventBlock>;
-  EventBlockType: EventBlockType;
+  EventBlockInput: EventBlockInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
@@ -275,6 +330,7 @@ export type ResolversTypes = {
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
   ISO8601Duration: ResolverTypeWrapper<Scalars['ISO8601Duration']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   JWT: ResolverTypeWrapper<Scalars['JWT']>;
@@ -316,6 +372,7 @@ export type ResolversTypes = {
   UnsignedFloat: ResolverTypeWrapper<Scalars['UnsignedFloat']>;
   UnsignedInt: ResolverTypeWrapper<Scalars['UnsignedInt']>;
   User: ResolverTypeWrapper<User>;
+  UserRoles: UserRoles;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
@@ -336,6 +393,7 @@ export type ResolversParentTypes = {
   EmailAddress: Scalars['EmailAddress'];
   Event: Event;
   EventBlock: EventBlock;
+  EventBlockInput: EventBlockInput;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
@@ -348,6 +406,7 @@ export type ResolversParentTypes = {
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
   ISO8601Duration: Scalars['ISO8601Duration'];
+  Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
   JWT: Scalars['JWT'];
@@ -453,8 +512,10 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type EventBlockResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventBlock'] = ResolversParentTypes['EventBlock']> = {
-  children?: Resolver<Array<ResolversTypes['EventBlock']>, ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['EventBlockType'], ParentType, ContextType>;
+  children?: Resolver<Array<Maybe<ResolversTypes['EventBlock']>>, ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -543,10 +604,17 @@ export interface MacScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addUserRole?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAddUserRoleArgs, 'role'>>;
   createEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationCreateEventArgs, 'published' | 'tagline' | 'title'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'password' | 'username'>>;
   deleteEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationDeleteEventArgs, 'id'>>;
   loginUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginUserArgs, 'password' | 'username'>>;
+  moveEventBlock?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationMoveEventBlockArgs, 'blockId' | 'eventId' | 'newIndex'>>;
+  removeEventBlock?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRemoveEventBlockArgs, 'blockId' | 'eventId'>>;
+  removeUserRole?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRemoveUserRoleArgs, 'role'>>;
+  updateEventBlock?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventBlockArgs, 'block' | 'blockId' | 'eventId'>>;
+  updateEventDetails?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventDetailsArgs, 'id' | 'published' | 'tagline' | 'title'>>;
+  updateEventHeroY?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventHeroYArgs, 'heroY' | 'id'>>;
 };
 
 export interface NegativeFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NegativeFloat'], any> {
@@ -672,6 +740,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   events?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  roles?: Resolver<Array<Maybe<ResolversTypes['UserRoles']>>, ParentType, ContextType>;
   submissions?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['JWT']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

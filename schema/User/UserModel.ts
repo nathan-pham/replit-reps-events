@@ -84,6 +84,7 @@ class UserModel {
             password: await bcrypt.hash(password, 12),
             email,
             avatar,
+            roles: [],
         });
 
         // return user with jwt token
@@ -113,6 +114,30 @@ class UserModel {
         }
 
         return Promise.reject(new GraphQLYogaError("User not found"));
+    }
+
+    static async updateUser(
+        username: string,
+        fieldsCb: (user: User) => Record<string, any> | null
+    ) {
+        const user = await UserModel.findByUsername(username);
+        const newFields = fieldsCb(user);
+
+        if (newFields) {
+            const { data } = await supabase
+                .from(USER_TABLE)
+                .update(newFields)
+                .eq("username", username);
+
+            if (isValidData(data)) {
+                return data![0] as User;
+            }
+            return Promise.reject(
+                new GraphQLYogaError("Could not update user")
+            );
+        }
+
+        return user;
     }
 }
 

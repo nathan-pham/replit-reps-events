@@ -15,6 +15,7 @@ import { separateSlug } from "utils/manageSlug";
 import { Button } from "components/utils/atoms";
 import { ClickableIcon, Editable, EditableSet } from "components/utils/styles";
 import Block from "components/Block";
+import { useState } from "react";
 import useEditorStore from "hooks/useEditorStore";
 import {
     DndContext,
@@ -32,6 +33,8 @@ import {
     rectSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import ModalSlide from "components/ModalSlide";
+
 const Event: NextPage = ({
     user,
     event,
@@ -45,6 +48,8 @@ const Event: NextPage = ({
         })
     );
 
+    // TODO: slid in modal
+
     const handleDragEnd = (e: DragEndEvent) => {
         const { active, over } = e;
         if (over && active.id !== over.id) {
@@ -53,6 +58,8 @@ const Event: NextPage = ({
             setBlocks(arrayMove(blocks, oldIndex, newIndex));
         }
     };
+
+    const [heroOpen, setHeroOpen] = useState(false);
 
     return (
         <PageRoot>
@@ -64,7 +71,7 @@ const Event: NextPage = ({
                         tw="w-full h-full rounded-xl border object-cover object-top"
                     />
                     <div tw="absolute right-3 bottom-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button>
+                        <Button onClick={() => setHeroOpen(true)}>
                             <BiUpload />
                             Change
                         </Button>
@@ -74,6 +81,18 @@ const Event: NextPage = ({
                         </Button>
                     </div>
                 </div>
+
+                <ModalSlide
+                    title="Change Hero Image"
+                    show={heroOpen}
+                    setShow={setHeroOpen}
+                >
+                    <img
+                        tw="w-full max-h-36 object-cover object-top mt-6 rounded-lg"
+                        src="/defaultEvent.jpg"
+                    />
+                    <p tw="mt-4">Hello</p>
+                </ModalSlide>
 
                 <Editable className="group mt-4">
                     <EditableSet>

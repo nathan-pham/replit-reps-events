@@ -91,28 +91,37 @@ export type Event = {
 
 export type EventBlock = {
   __typename?: 'EventBlock';
-  children: Array<EventBlock>;
-  type: EventBlockType;
+  children: Array<Maybe<EventBlock>>;
+  content: Scalars['String'];
+  id: Scalars['ID'];
+  type: Scalars['String'];
 };
 
-export enum EventBlockType {
-  Divider = 'DIVIDER',
-  Html = 'HTML',
-  Image = 'IMAGE',
-  ListChild = 'LIST_CHILD',
-  OlList = 'OL_LIST',
-  Paragraph = 'PARAGRAPH',
-  Title = 'TITLE',
-  UlList = 'UL_LIST',
-  Video = 'VIDEO'
-}
+export type EventBlockInput = {
+  children: Array<InputMaybe<EventBlockInput>>;
+  content: Scalars['String'];
+  id: Scalars['ID'];
+  type: Scalars['String'];
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addUserRole: User;
   createEvent: Event;
   createUser: User;
   deleteEvent: Event;
   loginUser: User;
+  moveEventBlock: Event;
+  removeEventBlock: Event;
+  removeUserRole: User;
+  updateEventBlock: Event;
+  updateEventDetails: Event;
+  updateEventHeroY: Event;
+};
+
+
+export type MutationAddUserRoleArgs = {
+  role: UserRoles;
 };
 
 
@@ -138,6 +147,45 @@ export type MutationDeleteEventArgs = {
 export type MutationLoginUserArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+
+export type MutationMoveEventBlockArgs = {
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+  newIndex: Scalars['Int'];
+};
+
+
+export type MutationRemoveEventBlockArgs = {
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationRemoveUserRoleArgs = {
+  role: UserRoles;
+};
+
+
+export type MutationUpdateEventBlockArgs = {
+  block: EventBlockInput;
+  blockId: Scalars['ID'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventDetailsArgs = {
+  id: Scalars['ID'];
+  published: Scalars['Boolean'];
+  tagline: Scalars['String'];
+  title: Scalars['String'];
+};
+
+
+export type MutationUpdateEventHeroYArgs = {
+  heroY: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 export type Query = {
@@ -175,10 +223,17 @@ export type User = {
   events: Array<Scalars['ID']>;
   id: Scalars['ID'];
   password: Scalars['String'];
+  roles: Array<Maybe<UserRoles>>;
   submissions: Array<Scalars['ID']>;
   token?: Maybe<Scalars['JWT']>;
   username: Scalars['String'];
 };
+
+export enum UserRoles {
+  Admin = 'ADMIN',
+  EarlyBird = 'EARLY_BIRD',
+  ReplitRep = 'REPLIT_REP'
+}
 
 export type Unnamed_1_MutationVariables = Exact<{
   title: Scalars['String'];

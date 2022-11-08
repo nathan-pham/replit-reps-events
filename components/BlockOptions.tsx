@@ -10,6 +10,7 @@ const blockTypes = {
         "Bullet List",
         "Number List",
         "Quote",
+        "Summary",
     ],
     media: ["Image", "Video"],
     logic: ["Task", "Submit Button"],

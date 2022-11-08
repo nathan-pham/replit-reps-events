@@ -12,4 +12,27 @@ export const UserMutations: Resolvers["Mutation"] = {
         cookies.set("token", user.token, { signed: true });
         return user;
     },
+    addUserRole: async (_, { role }, { token }) => {
+        const userPartial = await UserModel.validateUser(token);
+        return UserModel.updateUser(userPartial.username, (user) => {
+            if (user.roles.includes(role)) {
+                return null;
+            }
+
+            return {
+                roles: [...(user.roles || []), role],
+            };
+        });
+    },
+    removeUserRole: async (_, { role }, { token }) => {
+        const userPartial = await UserModel.validateUser(token);
+        return UserModel.updateUser(userPartial.username, (user) => {
+            return {
+                roles: (user.roles || []).filter((r) => r !== role),
+            };
+        });
+    },
 };
+
+// addUserRole(username: String!, role: UserRoles!): User!
+// removeUserRole(username: String!, role: UserRoles!): User!

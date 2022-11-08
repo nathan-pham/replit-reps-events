@@ -1,29 +1,32 @@
+import { useEffect, useRef, useState } from "react";
+import { BiPlus, BiGridVertical, BiCog } from "react-icons/bi";
+
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import {
     Editable,
     EditableSet,
     ClickableIcon,
     PopupAnchor,
 } from "components/utils/styles";
-import { BiPlus, BiGridVertical } from "react-icons/bi";
-import useEditorStore, { Block as BlockProps } from "hooks/useEditorStore";
+import useEditorStore from "hooks/useEditorStore";
 import Popup from "components/Popup";
-import { useEffect, useRef, useState } from "react";
 import BlockOptions from "components/BlockOptions";
-
-import { CSS } from "@dnd-kit/utilities";
-import { useSortable } from "@dnd-kit/sortable";
+import { EventBlock as BlockProps } from "schema";
 
 const Block = ({ content, type, id }: BlockProps) => {
-    const [insertBlock, updateBlock] = useEditorStore((s) => [
+    const [insertBlock, updateBlock, removeBlock] = useEditorStore((s) => [
         s.insertBlock,
         s.updateBlock,
+        s.removeBlock,
     ]);
 
     const [overrideShow, setOverrideShow] = useState(false);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const addButtonRef = useRef<HTMLButtonElement>(null);
-    // const dragButtonRef = useRef<HTMLButtonElement>(null);
+    const dragButtonRef = useRef<HTMLButtonElement>(null);
 
     const {
         attributes,
@@ -42,7 +45,6 @@ const Block = ({ content, type, id }: BlockProps) => {
     }, [content]);
 
     // TODO: different views depending on block type
-    // delete block
 
     return (
         <Editable
@@ -58,6 +60,9 @@ const Block = ({ content, type, id }: BlockProps) => {
                 <ClickableIcon ref={addButtonRef}>
                     <BiPlus />
                 </ClickableIcon>
+                <ClickableIcon ref={dragButtonRef}>
+                    <BiCog />
+                </ClickableIcon>
                 <ClickableIcon {...listeners} {...attributes}>
                     <BiGridVertical tw="cursor-grab" />
                 </ClickableIcon>
@@ -72,10 +77,14 @@ const Block = ({ content, type, id }: BlockProps) => {
                 />
             </Popup>
 
-            {/* <Popup handleRef={dragButtonRef}>
-                <PopupAnchor>Duplicate</PopupAnchor>
-                <PopupAnchor>Delete</PopupAnchor>
-            </Popup> */}
+            <Popup handleRef={dragButtonRef}>
+                <PopupAnchor onClick={() => insertBlock(id, type, content)}>
+                    Duplicate
+                </PopupAnchor>
+                <PopupAnchor onClick={() => removeBlock(id)}>
+                    Delete
+                </PopupAnchor>
+            </Popup>
 
             <textarea
                 onChange={(e) => {
