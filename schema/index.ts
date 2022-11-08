@@ -115,7 +115,7 @@ export type Mutation = {
   removeUserRole: User;
   updateEventBlock: Event;
   updateEventDetails: Event;
-  updateEventHeroY: Event;
+  updateEventHero: Event;
 };
 
 
@@ -182,14 +182,16 @@ export type MutationUpdateEventDetailsArgs = {
 };
 
 
-export type MutationUpdateEventHeroYArgs = {
-  heroY: Scalars['Float'];
+export type MutationUpdateEventHeroArgs = {
+  hero?: InputMaybe<Scalars['String']>;
+  heroY?: InputMaybe<Scalars['Float']>;
   id: Scalars['ID'];
 };
 
 export type Query = {
   __typename?: 'Query';
   event: Event;
+  eventImages: Array<Scalars['String']>;
   user: User;
 };
 
@@ -614,7 +616,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   removeUserRole?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRemoveUserRoleArgs, 'role'>>;
   updateEventBlock?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventBlockArgs, 'block' | 'blockId' | 'eventId'>>;
   updateEventDetails?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventDetailsArgs, 'id' | 'published' | 'tagline' | 'title'>>;
-  updateEventHeroY?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventHeroYArgs, 'heroY' | 'id'>>;
+  updateEventHero?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationUpdateEventHeroArgs, 'id'>>;
 };
 
 export interface NegativeFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NegativeFloat'], any> {
@@ -671,6 +673,7 @@ export interface PostalCodeScalarConfig extends GraphQLScalarTypeConfig<Resolver
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   event?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<QueryEventArgs, 'id'>>;
+  eventImages?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
 };
 
@@ -841,6 +844,11 @@ export type Unnamed_2_MutationVariables = Exact<{
 
 
 export type Unnamed_2_Mutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', token?: any | null } };
+
+export type EventImagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventImagesQuery = { __typename?: 'Query', eventImages: Array<string> };
 
 export type Unnamed_3_MutationVariables = Exact<{
   username: Scalars['String'];

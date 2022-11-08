@@ -52,6 +52,7 @@ input EventBlockInput {
 
 extend type Query {
     event(id: ID!): Event!
+    eventImages: [String!]!
 }
 
 extend type Mutation {
@@ -68,7 +69,7 @@ extend type Mutation {
     moveEventBlock(eventId: ID!, blockId: ID!, newIndex: Int!): Event!
 
     # update global event details
-    updateEventHeroY(id: ID!, heroY: Float!): Event!
+    updateEventHero(id: ID!, hero: String, heroY: Float): Event!
     updateEventDetails(
         id: ID!
         title: String!

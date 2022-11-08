@@ -34,6 +34,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import ModalSlide from "components/ModalSlide";
+import ModalEventImages from "components/ModalEventImages";
 
 const Event: NextPage = ({
     user,
@@ -47,8 +48,6 @@ const Event: NextPage = ({
             coordinateGetter: sortableKeyboardCoordinates,
         })
     );
-
-    // TODO: slid in modal
 
     const handleDragEnd = (e: DragEndEvent) => {
         const { active, over } = e;
@@ -67,7 +66,7 @@ const Event: NextPage = ({
                 <Header user={user} />
                 <div tw="w-full h-72 relative" className="group">
                     <img
-                        src="/defaultEvent.jpg"
+                        src={event.hero}
                         tw="w-full h-full rounded-xl border object-cover object-top"
                     />
                     <div tw="absolute right-3 bottom-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -82,16 +81,17 @@ const Event: NextPage = ({
                     </div>
                 </div>
 
+                {JSON.stringify(event)}
+
                 <ModalSlide
                     title="Change Hero Image"
                     show={heroOpen}
                     setShow={setHeroOpen}
                 >
-                    <img
-                        tw="w-full max-h-36 object-cover object-top mt-6 rounded-lg"
-                        src="/defaultEvent.jpg"
-                    />
-                    <p tw="mt-4">Hello</p>
+                    <p tw="mt-1">
+                        Use some official Replit art for your next event!
+                    </p>
+                    <ModalEventImages {...event} />
                 </ModalSlide>
 
                 <Editable className="group mt-4">

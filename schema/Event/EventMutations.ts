@@ -10,6 +10,25 @@ export const EventMutations: Resolvers["Mutation"] = {
     // },
     // updateEventHeroY: () => {},
     // updateEventDetails: () => {},
+    updateEventHero: async (_, { id, hero, heroY }, { token }) => {
+        const event = await EventModel.findEventById(id);
+        const userPartial = await UserModel.validateUser(token);
+        const user = await UserModel.findByUsername(userPartial.username);
+
+        // event must belong to you
+        if (user.events.includes(event.id)) {
+            return EventModel.updateEvent(event.id, () => ({
+                ...(hero && { hero }),
+                ...(heroY && { heroY }),
+            }));
+        }
+
+        return Promise.reject(
+            new GraphQLYogaError(
+                "You cannot delete an modify that isn't yours!"
+            )
+        );
+    },
 
     createEvent: async (_, { title, tagline, published }, { token }) => {
         return EventModel.createEvent(

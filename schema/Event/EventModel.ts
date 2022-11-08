@@ -30,7 +30,7 @@ export default class EventModel {
 
         // create event
         const { data } = await supabase.from(EVENT_TABLE).insert({
-            hero: "",
+            hero: "/eventImages/defaultEvent.jpg",
             heroY: 0,
             title,
             description,
@@ -56,5 +56,29 @@ export default class EventModel {
         }
 
         return Promise.reject(new GraphQLYogaError("Failed to create event"));
+    }
+
+    static async updateEvent(
+        eventId: string,
+        fieldsCb: (event: Event) => Record<string, any> | null
+    ) {
+        const event = await EventModel.findEventById(eventId);
+        const newFields = fieldsCb(event);
+
+        if (newFields) {
+            const { data } = await supabase
+                .from(EVENT_TABLE)
+                .update(newFields)
+                .eq("id", eventId);
+
+            if (isValidData(data)) {
+                return data![0] as Event;
+            }
+            return Promise.reject(
+                new GraphQLYogaError("Could not update event")
+            );
+        }
+
+        return event;
     }
 }

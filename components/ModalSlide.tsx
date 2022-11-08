@@ -1,6 +1,6 @@
 import ButtonClose from "components/ButtonClose";
 import { H1 } from "components/utils/atoms";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Portal from "components/utils/Portal";
@@ -33,6 +33,8 @@ const modalAside = {
 const ModalSlide = ({ title, show, setShow, children }: ModalSlideProps) => {
     useEffect(() => {}, []);
 
+    const parentRef = useRef<HTMLDivElement>(null);
+
     return (
         <Portal>
             <AnimatePresence>
@@ -43,9 +45,16 @@ const ModalSlide = ({ title, show, setShow, children }: ModalSlideProps) => {
                         animate="enter"
                         initial="leave"
                         exit="leave"
+                        ref={parentRef}
+                        onClick={(e) => {
+                            if (e.target === parentRef.current) {
+                                setShow(false);
+                            }
+                        }}
                     >
                         <motion.aside
-                            tw="bg-white h-screen w-4/12 absolute right-0 shadow-xl p-4"
+                            tw="bg-white h-screen overflow-y-auto absolute right-0 shadow-xl p-4"
+                            className="w-[30rem] max-w-[100vw]"
                             variants={modalAside}
                             animate="enter"
                             initial="leave"

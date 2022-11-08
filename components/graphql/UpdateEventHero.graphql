@@ -1,0 +1,6 @@
+mutation ($id: ID!, $hero: String, $heroY: Float) {
+    updateEventHero(id: $id, hero: $hero, heroY: $heroY) {
+        hero
+        heroY
+    }
+}
