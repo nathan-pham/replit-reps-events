@@ -1,10 +1,13 @@
 import { twMerge } from "tailwind-merge";
 import { useMutation, useQuery } from "urql";
+import { useState } from "react";
+import { Event } from "schema";
 import EventImages from "components/graphql/EventImages.graphql";
 import UpdateEventHero from "components/graphql/UpdateEventHero.graphql";
-import { Event } from "schema";
 import useRefresh from "hooks/useRefresh";
 import useToastStore from "hooks/useToastStore";
+
+import path from "path";
 
 const ModalEventImages = ({ id, hero }: Event) => {
     const refresh = useRefresh();
@@ -12,6 +15,7 @@ const ModalEventImages = ({ id, hero }: Event) => {
 
     const [eventImages] = useQuery({ query: EventImages });
     const [_, updateEventHero] = useMutation(UpdateEventHero);
+    const [localHero, setLocalHero] = useState(hero);
 
     return (
         <>
@@ -21,8 +25,8 @@ const ModalEventImages = ({ id, hero }: Event) => {
                     tw="before:(absolute top-1.5 left-1.5 px-2 py-1 rounded-md text-sm)"
                     className={twMerge(
                         "w-full h-36 mt-3 cursor-pointer relative grayscale hover:grayscale-0 transition-all",
-                        src.replace(/\\/g, "/") === hero &&
-                            "grayscale-0 before:content-['Selected'] before:bg-white "
+                        path.resolve(src) === path.resolve(localHero) &&
+                            "grayscale-0 before:content-['Selected'] before:bg-blue-300"
                     )}
                     onClick={async () => {
                         await updateEventHero({
@@ -30,7 +34,8 @@ const ModalEventImages = ({ id, hero }: Event) => {
                             hero: src,
                         });
 
-                        addToast("Success!", "Check out that new banner!");
+                        setLocalHero(src);
+                        addToast("Updated Event", "Check out that new banner!");
                         refresh();
                     }}
                 >

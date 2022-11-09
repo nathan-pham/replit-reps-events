@@ -35,6 +35,7 @@ import {
 
 import ModalSlide from "components/ModalSlide";
 import ModalEventImages from "components/ModalEventImages";
+import EventRepositioner from "components/EventRepositioner";
 
 const Event: NextPage = ({
     user,
@@ -64,22 +65,11 @@ const Event: NextPage = ({
         <PageRoot>
             <PageWrapper>
                 <Header user={user} />
-                <div tw="w-full h-72 relative" className="group">
-                    <img
-                        src={event.hero}
-                        tw="w-full h-full rounded-xl border object-cover object-top"
-                    />
-                    <div tw="absolute right-3 bottom-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button onClick={() => setHeroOpen(true)}>
-                            <BiUpload />
-                            Change
-                        </Button>
-                        <Button variant="hollow">
-                            <BiMove />
-                            Reposition
-                        </Button>
-                    </div>
-                </div>
+                <EventRepositioner
+                    {...event}
+                    heroOpen={heroOpen}
+                    setHeroOpen={setHeroOpen}
+                />
 
                 {JSON.stringify(event)}
 
