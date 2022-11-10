@@ -36,6 +36,7 @@ import {
 import ModalSlide from "components/ModalSlide";
 import ModalEventImages from "components/ModalEventImages";
 import EventRepositioner from "components/EventRepositioner";
+import Footer from "components/Footer";
 
 const Event: NextPage = ({
     user,
@@ -112,6 +113,8 @@ const Event: NextPage = ({
                         ))}
                     </SortableContext>
                 </DndContext>
+
+                <Footer />
             </PageWrapper>
         </PageRoot>
     );

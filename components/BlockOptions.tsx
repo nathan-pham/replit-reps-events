@@ -1,17 +1,7 @@
 import { PopupAnchor, PopupTitle } from "components/utils/styles";
 
-const blockTypes = {
-    basic: [
-        "Header (h1)",
-        "Header (h2)",
-        "Text",
-        "Markdown",
-        "Line",
-        "Bullet List",
-        "Number List",
-        "Quote",
-        "Summary",
-    ],
+export const blockTypes = {
+    basic: ["Markdown", "Header (h1)", "Header (h2)", "Line", "Quote"],
     media: ["Image", "Video"],
     logic: ["Task", "Submit Button"],
 };
