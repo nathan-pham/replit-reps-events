@@ -84,7 +84,7 @@ const Block = ({ content, type, id }: BlockProps) => {
             </Popup>
 
             <BlockLogic
-                {...{ editRef, content, type }}
+                {...{ editRef, content, type, id }}
                 onChange={(e) => {
                     const content = e.target.value as string;
                     updateBlock(id, { content });

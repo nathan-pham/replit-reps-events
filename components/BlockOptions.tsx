@@ -46,7 +46,9 @@ const BlockOptions = ({ content, onClick = (_) => {} }: BlockOptionsProps) => {
                                         return;
                                     }
 
-                                    onClick(block.toLowerCase());
+                                    onClick(
+                                        block.toLowerCase().replace(/ /g, "")
+                                    );
                                 }}
                             >
                                 {block}
